@@ -1,0 +1,11 @@
+*.csproj
+*.sln
+*.booproj
+Library/
+Temp/
+*.userprefs
+*.DotSettings
+*.suo
+Assets/UnityVS/
+Assets/UnityVS.meta
+obj/
