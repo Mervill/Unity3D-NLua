@@ -151,7 +151,7 @@ PlayerSettings:
   flashStrippingLevel: 2
   spritePackerPolicy: 
   scriptingDefineSymbols:
-    1: UNITY3D;USE_KOPILUA;NOT_CLSC;LUA_CORE;CATCH_EXCEPTIONS
+    1: UNITY_3D;USE_KOPILUA;LUA_CORE;CATCH_EXCEPTIONS
   metroPackageName: NLua
   metroPackageLogo: 
   metroPackageLogo140: 
