@@ -80,9 +80,10 @@ end
 		env["this"] = this; // Give the script access to the gameobject.
 		env["transform"] = transform;
 		
-		System.Object[] result = new System.Object[0];
+		//System.Object[] result = new System.Object[0];
 		try {
-			result = env.DoString(source);
+			//result = env.DoString(source);
+			env.DoString(source);
 		} catch(NLua.Exceptions.LuaException e) {
 			Debug.LogError(FormatException(e), gameObject);
 		}
