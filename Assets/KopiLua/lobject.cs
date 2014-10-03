@@ -124,7 +124,9 @@ namespace KopiLua
 				get { return this.values[this.index + offset]; }
 			}
 
+#if !UNITY_3D
 			[CLSCompliantAttribute(false)]
+#endif
 			public LuaTypeValue this[uint offset]
 			{
 				get { return this.values[this.index + (int)offset]; }
@@ -416,9 +418,13 @@ namespace KopiLua
 		public class TStringTSV : GCObject
 		{
 			public LuaByteType reserved;
+#if !UNITY_3D
 			[CLSCompliantAttribute(false)]
+#endif
 			public uint hash;
+#if !UNITY_3D
 			[CLSCompliantAttribute(false)]
+#endif
 			public uint len;
 		};
 		public class TString : TStringTSV {
@@ -442,7 +448,9 @@ namespace KopiLua
 		{
 			public Table metatable;
 			public Table env;
+#if !UNITY_3D
 			[CLSCompliantAttribute(false)]
+#endif
 			public uint len;
 		};
 
@@ -473,7 +481,9 @@ namespace KopiLua
 		  public Proto this[int offset] {get { return this.protos[this.index + offset]; }}
 
 		  public Lua.LuaTypeValue[] k;  /* constants used by the function */
+#if !UNITY_3D
 			[CLSCompliantAttribute(false)]
+#endif
 		  public Instruction[] code;
 		  public new Proto[] p;  /* functions defined inside the function */
 		  public int[] lineinfo;  /* map from opcodes to source lines */
@@ -515,10 +525,14 @@ namespace KopiLua
 
 		public class UpVal : GCObject {
 		  public Lua.LuaTypeValue v;  /* points to stack or to its own value */
+#if !UNITY_3D
 			[CLSCompliantAttribute(false)]
+#endif
 			public class Uinternal {
 				public Lua.LuaTypeValue value = new LuaTypeValue();  /* the value (when closed) */
+#if !UNITY_3D
 				[CLSCompliantAttribute(false)]
+#endif
 				public class _l {  /* double linked list (when open) */
 				  public UpVal prev;
 				  public UpVal next;
@@ -526,7 +540,9 @@ namespace KopiLua
 
 				public _l l = new _l();
 		  }
+#if !UNITY_3D
 			[CLSCompliantAttribute(false)]
+#endif
 			public new Uinternal u = new Uinternal();
 		};
 
@@ -659,7 +675,9 @@ namespace KopiLua
 			public Lua.LuaTypeValue i_val;
 			public TKey i_key;
 
+#if !UNITY_3D
 			[CLSCompliantAttribute(false)]
+#endif
 			public Node this[uint offset]
 			{
 				get { return this.values[this.index + (int)offset]; }
@@ -744,7 +762,9 @@ namespace KopiLua
 		** (eeeeexxx), where the real value is (1xxx) * 2^(eeeee - 1) if
 		** eeeee != 0 and (xxx) otherwise.
 		*/
+#if !UNITY_3D
 		[CLSCompliantAttribute(false)]
+#endif
 		public static int LuaOInt2FB (uint x) {
 		  int e = 0;  /* expoent */
 		  while (x >= 16) {
@@ -775,7 +795,9 @@ namespace KopiLua
 			8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8
 		  };
 
+#if !UNITY_3D
 		[CLSCompliantAttribute(false)]
+#endif
 		public static int LuaOLog2 (uint x) {
 		  int l = -1;
 		  while (x >= 256) { l += 8; x >>= 8; }
@@ -892,7 +914,9 @@ namespace KopiLua
 			return LuaOPushVFString(L, fmt, args);
 		}
 
+#if !UNITY_3D
 		[CLSCompliantAttribute(false)]
+#endif
 		public static void LuaOChunkID (CharPtr out_, CharPtr source, uint bufflen) {
 			//out_ = "";
 		  if (source[0] == '=') {

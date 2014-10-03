@@ -26,9 +26,13 @@ namespace KopiLua
 		public Lua.CallInfo[] base_ci;  /* array of CallInfo's */
 		public int stacksize;
 		public int size_ci;  /* size of array `base_ci' */
+#if !UNITY_3D
 		[CLSCompliantAttribute(false)]
+#endif
 		public ushort nCcalls;  /* number of nested C calls */
+#if !UNITY_3D
 		[CLSCompliantAttribute(false)]
+#endif
 		public ushort baseCcalls;  /* nested C calls when resuming coroutine */
 		public lu_byte hookmask;
 		public lu_byte allowhook;

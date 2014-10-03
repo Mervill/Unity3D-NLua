@@ -162,7 +162,9 @@ namespace KopiLua
 		  LuaXLexError(ls, msg, ls.t.token);
 		}
 
+#if !UNITY_3D
 		[CLSCompliantAttribute(false)]
+#endif
 		public static TString LuaXNewString(LexState ls, CharPtr str, uint l)
 		{
 		  LuaState L = ls.L;

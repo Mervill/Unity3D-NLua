@@ -22,7 +22,9 @@ namespace KopiLua
 	{
 		public class DumpState {
 		 public LuaState L;
+#if !UNITY_3D
 		 [CLSCompliantAttribute(false)]
+#endif
 		 public lua_Writer writer;
 		 public object data;
 		 public int strip;
@@ -234,7 +236,9 @@ namespace KopiLua
 		/*
 		** dump Lua function as precompiled chunk
 		*/
+#if !UNITY_3D
 		[CLSCompliantAttribute(false)]
+#endif
 		public static int LuaUDump (LuaState L, Proto f, lua_Writer w, object data, int strip)
 		{
 		 DumpState D = new DumpState();

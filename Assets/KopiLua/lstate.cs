@@ -161,13 +161,21 @@ namespace KopiLua
 		  public GCObject weak;  /* list of weak tables (to be cleared) */
 		  public GCObject tmudata;  /* last element of list of userdata to be GC */
 		  public Mbuffer buff = new Mbuffer();  /* temporary buffer for string concatentation */
+#if !UNITY_3D
           [CLSCompliantAttribute(false)]
+#endif
 		  public lu_mem GCthreshold;
+#if !UNITY_3D
           [CLSCompliantAttribute(false)]
+#endif
 		  public lu_mem totalbytes;  /* number of bytes currently allocated */
+#if !UNITY_3D
           [CLSCompliantAttribute(false)]
+#endif
 		  public lu_mem estimate;  /* an estimate of number of bytes actually in use */
+#if !UNITY_3D
           [CLSCompliantAttribute(false)]
+#endif
 		  public lu_mem gcdept;  /* how much GC is `behind schedule' */
 		  public int gcpause;  /* size of pause between successive GCs */
 		  public int gcstepmul;  /* GC `granularity' */

@@ -35,9 +35,13 @@ namespace KopiLua
 
 		public class Mbuffer {
 		  public CharPtr buffer = new CharPtr();
+#if !UNITY_3D
           [CLSCompliantAttribute(false)]
+#endif
 		  public uint n;
+#if !UNITY_3D
           [CLSCompliantAttribute(false)]
+#endif
 		  public uint buffsize;
 		};
 
@@ -47,9 +51,13 @@ namespace KopiLua
 		}
 
 		public static CharPtr luaZ_buffer(Mbuffer buff)	{return buff.buffer;}
+#if !UNITY_3D
 		[CLSCompliantAttribute(false)]
+#endif
 		public static uint luaZ_sizebuffer(Mbuffer buff) { return buff.buffsize; }
+#if !UNITY_3D
 		[CLSCompliantAttribute(false)]
+#endif
 		public static uint luaZ_bufflen(Mbuffer buff)	{return buff.n;}
 		public static void luaZ_resetbuffer(Mbuffer buff) {buff.n = 0;}
 
@@ -69,10 +77,14 @@ namespace KopiLua
 		/* --------- Private Part ------------------ */
 
 		public class Zio {
+#if !UNITY_3D
 			[CLSCompliantAttribute(false)]
+#endif
 			public uint n;			/* bytes still unread */
 			public CharPtr p;			/* current position in buffer */
+#if !UNITY_3D
 			[CLSCompliantAttribute(false)]
+#endif
 			public lua_Reader reader;
 			public object data;			/* additional data */
 			public LuaState L;			/* Lua state (for reader) */
@@ -112,7 +124,9 @@ namespace KopiLua
 		  return char2int(z.p[0]);
 		}
 
+#if !UNITY_3D
 		[CLSCompliantAttribute(false)]
+#endif
 		public static void luaZ_init(LuaState L, ZIO z, lua_Reader reader, object data)
 		{
 		  z.L = L;
@@ -125,7 +139,9 @@ namespace KopiLua
 
 
 		/* --------------------------------------------------------------- read --- */
+#if !UNITY_3D
 		[CLSCompliantAttribute(false)]
+#endif
 		public static uint luaZ_read (ZIO z, CharPtr b, uint n) {
 		  b = new CharPtr(b);
 		  while (n != 0) {
@@ -143,7 +159,9 @@ namespace KopiLua
 		}
 
 		/* ------------------------------------------------------------------------ */
+#if !UNITY_3D
 		[CLSCompliantAttribute(false)]
+#endif
 		public static CharPtr luaZ_openspace (LuaState L, Mbuffer buff, uint n) {
 		  if (n > buff.buffsize) {
 			if (n < LUAMINBUFFER) n = LUAMINBUFFER;

@@ -337,7 +337,9 @@ namespace KopiLua
 		  return (LIsFalse(o) == 0) ? 1 : 0;
 		}
 
+#if !UNITY_3D
 		[CLSCompliantAttribute(false)]
+#endif
 		public static CharPtr LuaToLString (LuaState L, int idx, out uint len) {
 		  StkId o = Index2Address(L, idx);
 		  if (!TTIsString(o)) {
@@ -355,7 +357,9 @@ namespace KopiLua
 		  return SValue(o);
 		}
 
+#if !UNITY_3D
 		[CLSCompliantAttribute(false)]
+#endif
 		public static uint LuaObjectLen (LuaState L, int idx) {
 		  StkId o = Index2Address(L, idx);
 		  switch (TType(o)) {
@@ -863,7 +867,9 @@ namespace KopiLua
 		  return status;
 		}
 
+#if !UNITY_3D
 		[CLSCompliantAttribute(false)]
+#endif
 		public static int LuaLoad (LuaState L, lua_Reader reader, object data,
 							  CharPtr chunkname) {
 		  ZIO z = new ZIO();
@@ -876,7 +882,9 @@ namespace KopiLua
 		  return status;
 		}
 
+#if !UNITY_3D
 		[CLSCompliantAttribute(false)]
+#endif
 		public static int LuaDump (LuaState L, lua_Writer writer, object data) {
 		  int status;
 		  TValue o;
@@ -1028,7 +1036,9 @@ namespace KopiLua
 		  LuaUnlock(L);
 		}
 
+#if !UNITY_3D
 		[CLSCompliantAttribute(false)]
+#endif
 		public static object LuaNewUserData(LuaState L, uint size)
 		{
 			Udata u;

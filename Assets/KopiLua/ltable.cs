@@ -537,7 +537,9 @@ namespace KopiLua
 		  }
 		}
 
+#if !UNITY_3D
 		[CLSCompliantAttribute(false)]
+#endif
 		public static int unbound_search (Table t, uint j) {
 		  uint i = j;  /* i is zero or a present index */
 		  j++;
