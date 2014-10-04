@@ -1,12 +1,12 @@
 Unity3D-NLua
 =======
 
-Everything you need to get started using NLua in Unity3D. Indie & Pro compatible.
+Everything you need to get started using Lua in Unity3D. Indie & Pro compatible. 
 
-Licence: MIT/Boost C++
-
-NLua is maintained [here](https://github.com/NLua/NLua) and is licensed under the MIT.
-The submodules [KopiLua](https://github.com/NLua/KopiLua) and [KeraLua](https://github.com/NLua/KeraLua) are also licensed under the MIT.
+This template project implements [NLua](https://github.com/NLua/NLua) which
+drives either [KopiLua](https://github.com/NLua/KopiLua) (C# VM)
+or [KeraLua](https://github.com/NLua/KeraLua) (C VM wrapper). All three projects
+are licensed under the MIT. This project is licensed under the Boost Software Licence.
 
 ## Scripting Symbols
 
