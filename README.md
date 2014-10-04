@@ -28,7 +28,9 @@ well as `LUA_CORE` & `CATCH_EXCEPTIONS` which are required by the VM.
 
 Your **Scripting Define Symbols** list should end up looking something like:
 
-`UNITY_3D; USE_KOPILUA; LUA_CORE; CATCH_EXCEPTIONS`
+```
+UNITY_3D; USE_KOPILUA; LUA_CORE; CATCH_EXCEPTIONS
+```
 
 You may also notice other symbols used throughout NLua, none of these have yet
 been tested for compatibility.
