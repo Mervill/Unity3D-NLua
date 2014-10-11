@@ -63,9 +63,7 @@ namespace NLua
 	 * - removed all Open*Lib() functions 
 	 * - all libs automatically open in the Lua class constructor (just assign nil to unwanted libs)
 	 * */
-#if !UNITY_3D
 	[CLSCompliant(true)]
-#endif
 	public class Lua : IDisposable
 	{
 		#region lua debug functions

@@ -278,9 +278,7 @@ namespace KopiLua
 
 		public static int CheckOpenOp(Proto pt, int pc) { return LuaGCheckOpenOp(pt.code[pc + 1]); }
 
-#if !UNITY_3D
 		[CLSCompliantAttribute(false)]
-#endif
 		public static int LuaGCheckOpenOp (Instruction i) {
 		  switch (GET_OPCODE(i)) {
 			case OpCode.OP_CALL:

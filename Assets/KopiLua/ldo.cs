@@ -80,9 +80,7 @@ namespace KopiLua
 		public class LuaLongJmp {
 		  public LuaLongJmp previous;
 		  public LuaIJmpBuf b;
-#if !UNITY_3D
           [CLSCompliantAttribute(false)]
-#endif
 		  public volatile int status;  /* error code */
 		};
 
@@ -516,9 +514,7 @@ namespace KopiLua
 		  return status;
 		}
 
-#if !UNITY_3D
 		[CLSCompliantAttribute(false)]
-#endif
 		public static int LuaYield (LuaState L, int nresults) {
 		  luai_userstateyield(L, nresults);
 		  LuaLock(L);

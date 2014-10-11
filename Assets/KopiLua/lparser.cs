@@ -54,9 +54,7 @@ namespace KopiLua
 
 			public expkind k;
 
-#if !UNITY_3D
 			[CLSCompliantAttribute(false)]
-#endif
 			public class _u
 			{
 				public void Copy(_u u)
@@ -65,9 +63,7 @@ namespace KopiLua
 					this.nval = u.nval;
 				}
 
-#if !UNITY_3D
 				[CLSCompliantAttribute(false)]
-#endif
 				public class _s
 				{
 					public void Copy(_s s)
@@ -81,9 +77,7 @@ namespace KopiLua
 				public lua_Number nval;
 			};
 
-#if !UNITY_3D
 			[CLSCompliantAttribute(false)]
-#endif
 			public _u u = new _u();
 
 		  public int t;  /* patch list of `exit when true' */
@@ -120,9 +114,7 @@ namespace KopiLua
 		  public short nlocvars;  /* number of elements in `locvars' */
 		  public lu_byte nactvar;  /* number of active local variables */
 		  public upvaldesc[] upvalues = new upvaldesc[LUAI_MAXUPVALUES];  /* upvalues */
-#if !UNITY_3D
           [CLSCompliantAttribute(false)]
-#endif
 		  public ushort[] actvar = new ushort[LUAI_MAXVARS];  /* declared-variable stack */
 		};
 

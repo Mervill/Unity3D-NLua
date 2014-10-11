@@ -14,9 +14,7 @@ namespace KopiLua
 			set { chars[index + offset] = value; }
 		}
 
-#if !UNITY_3D
 		[CLSCompliantAttribute(false)]
-#endif
 		public char this[uint offset]
 		{
 			get { return chars[index + offset]; }
@@ -87,13 +85,9 @@ namespace KopiLua
 
 		public static CharPtr operator +(CharPtr ptr, int offset) {return new CharPtr(ptr.chars, ptr.index+offset);}
 		public static CharPtr operator -(CharPtr ptr, int offset) {return new CharPtr(ptr.chars, ptr.index-offset);}
-#if !UNITY_3D
 		[CLSCompliantAttribute(false)]
-#endif
 		public static CharPtr operator +(CharPtr ptr, uint offset) { return new CharPtr(ptr.chars, ptr.index + (int)offset); }
-#if !UNITY_3D
 		[CLSCompliantAttribute(false)]
-#endif
 		public static CharPtr operator -(CharPtr ptr, uint offset) { return new CharPtr(ptr.chars, ptr.index - (int)offset); }
 
 		public void inc() { this.index++; }

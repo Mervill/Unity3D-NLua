@@ -61,9 +61,7 @@ namespace KopiLua
 		  tb.hash = newhash;
 		}
 
-#if !UNITY_3D
 		[CLSCompliantAttribute(false)]
-#endif
 		public static TString newlstr (LuaState L, CharPtr str, uint l,
 											   uint h) {
 		  TString ts;
@@ -90,9 +88,7 @@ namespace KopiLua
 		  return ts;
 		}
 
-#if !UNITY_3D
 		[CLSCompliantAttribute(false)]
-#endif
 		public static TString luaS_newlstr (LuaState L, CharPtr str, uint l) {
 		  GCObject o;
 		  uint h = (uint)l;  /* seed */
@@ -115,9 +111,7 @@ namespace KopiLua
 		  return res;
 		}
 
-#if !UNITY_3D
 		[CLSCompliantAttribute(false)]
-#endif
 		public static Udata luaS_newudata(LuaState L, uint s, Table e)
 		{
 			Udata u = new Udata();
