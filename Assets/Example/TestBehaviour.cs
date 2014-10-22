@@ -15,6 +15,7 @@ function Start()
 	-- typical of C# scripts in Unity. This should successfully 
 	-- resolve to a ProxyType as of NLua commit [dc976e8]
 	Debug.Log(ExampleBehaviour) 
+	Debug.Log(this:GetComponent('Transform'))
 end
 
 ";
@@ -27,7 +28,7 @@ end
 
 		env["this"] = this; // Give the script access to the gameobject.
 		env["transform"] = transform;
-
+		
 		//System.Object[] result = new System.Object[0];
 		try {
 			//result = env.DoString(source);

@@ -31,7 +31,7 @@ namespace NLua.Exceptions
 	/// Exceptions thrown by the Lua runtime because of errors in the script
 	/// </summary>
 	/// 
-#if !SILVERLIGHT
+#if !SILVERLIGHT && !NETFX_CORE
 	[Serializable]
 #endif
 	public class LuaScriptException : LuaException
@@ -46,7 +46,7 @@ namespace NLua.Exceptions
 		/// <summary>
 		/// The position in the script where the exception was triggered.
 		/// </summary>
-#if SILVERLIGHT
+#if SILVERLIGHT && !WINDOWS_PHONE
 		public string Source { get { return source; } }
 #else
 		public override string Source { get { return source; } }

@@ -47,13 +47,9 @@ namespace NLua
 	 */
 	sealed class CheckType
 	{
-#if SILVERLIGHT
-		private Dictionary<Type, ExtractValue> extractValues = new Dictionary<Type, ExtractValue>();
-#else
-		private Dictionary<long, ExtractValue> extractValues = new Dictionary<long, ExtractValue> ();
-#endif
-		private ExtractValue extractNetObject;
-		private ObjectTranslator translator;
+		Dictionary<Type, ExtractValue> extractValues = new Dictionary<Type, ExtractValue>();
+		ExtractValue extractNetObject;
+		ObjectTranslator translator;
 
 		public CheckType (ObjectTranslator translator)
 		{
@@ -84,7 +80,7 @@ namespace NLua
 		 * Checks if the value at Lua stack index stackPos matches paramType, 
 		 * returning a conversion function if it does and null otherwise.
 		 */
-		internal ExtractValue GetExtractor (IReflect paramType)
+		internal ExtractValue GetExtractor (ProxyType paramType)
 		{
 			return GetExtractor (paramType.UnderlyingSystemType);
 		}
@@ -163,9 +159,9 @@ namespace NLua
 					return extractValues [extractKey];
 			} else if (typeof(Delegate).IsAssignableFrom (paramType) && luatype == LuaTypes.Function)
 				return new ExtractValue (new DelegateGenerator (translator, paramType).ExtractGenerated);
-			else if (paramType.IsInterface && luatype == LuaTypes.Table)
+			else if (paramType.IsInterface() && luatype == LuaTypes.Table)
 				return new ExtractValue (new ClassGenerator (translator, paramType).ExtractGenerated);
-			else if ((paramType.IsInterface || paramType.IsClass) && luatype == LuaTypes.Nil) {
+			else if ((paramType.IsInterface() || paramType.IsClass()) && luatype == LuaTypes.Nil) {
 				// kevinh - allow nil to be silently converted to null - extractNetObject will return null when the item ain't found
 				return extractNetObject;
 			} else if (LuaLib.LuaType (luaState, stackPos) == LuaTypes.Table) {
@@ -185,17 +181,10 @@ namespace NLua
 			return null;
 		}
 
-#if SILVERLIGHT
-		private Type GetExtractDictionaryKey(Type targetType)
+		Type GetExtractDictionaryKey(Type targetType)
 		{
 			return targetType;
 		}
-#else
-		private long GetExtractDictionaryKey(Type targetType)
-		{
-			return targetType.TypeHandle.Value.ToInt64();
-		}
-#endif
 
 		/*
 		 * The following functions return the value in the Lua stack
