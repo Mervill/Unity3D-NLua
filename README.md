@@ -34,3 +34,14 @@ UNITY_3D; USE_KOPILUA; LUA_CORE; CATCH_EXCEPTIONS
 
 You may also notice other symbols used throughout NLua, none of these have yet
 been tested for compatibility.
+
+## FAQ
+
+ **How do I Instantiate new objects?**
+
+`GameObject.Instantiate(luanet.ctype(Transform))`
+
+**How do I run C# coroutines?**
+
+See [this comment](https://github.com/NLua/NLua/issues/110#issuecomment-59874806) for details, essentially though you either have to call lua functions indriectily, or roll your own coroutine manager (not hugely difficult). Direct support for coroutines may be included in future releases. 
+
