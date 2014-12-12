@@ -1,6 +1,6 @@
 ﻿using System;
 
-#if WINDOWS_PHONE
+#if !UNITY_3D
 namespace System.Reflection
 {
 	public enum BindingFlags

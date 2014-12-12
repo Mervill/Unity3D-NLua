@@ -25,6 +25,7 @@
 using System;
 using System.Reflection;
 using System.Collections.Generic;
+using System.Linq;
 using NLua.Exceptions;
 using NLua.Extensions;
 
@@ -94,7 +95,22 @@ namespace NLua.Method
 				_ExtractTarget = translator.typeChecker.GetExtractor (targetType);
 
 			_IsStatic = (bindingType & BindingFlags.Static) == BindingFlags.Static;
-			_Members  = targetType.UnderlyingSystemType.GetMethods (methodName, bindingType | BindingFlags.Public);
+			_Members  = GetMethodsRecursively (targetType.UnderlyingSystemType, methodName, bindingType | BindingFlags.Public);
+		}
+
+		MethodInfo [] GetMethodsRecursively (Type type, string methodName, BindingFlags bindingType)
+		{
+			if (type == typeof(object))
+				return type.GetMethods (methodName, bindingType);
+
+			var methods = type.GetMethods (methodName, bindingType);
+#if NETFX_CORE
+			var baseMethods = GetMethodsRecursively (type.GetTypeInfo ().BaseType, methodName, bindingType);
+#else
+			var baseMethods = GetMethodsRecursively (type.BaseType, methodName, bindingType);
+#endif
+
+			return methods.Concat (baseMethods).ToArray ();
 		}
 
 		/// <summary>

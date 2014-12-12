@@ -39,7 +39,7 @@ been tested for compatibility.
 
  **How do I Instantiate new objects?**
 
-`GameObject.Instantiate(luanet.ctype(Transform))`
+See the SpawnSphere example.
 
 **How do I run C# coroutines?**
 

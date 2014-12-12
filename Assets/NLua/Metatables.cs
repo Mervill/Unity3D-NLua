@@ -33,6 +33,10 @@ using System.Runtime.InteropServices;
 using NLua.Method;
 using NLua.Extensions;
 
+#if MONOTOUCH
+	using ObjCRuntime;
+#endif
+
 namespace NLua
 {
 	#if USE_KOPILUA
@@ -61,6 +65,7 @@ namespace NLua
 		public LuaNativeFunction ExecuteDelegateFunction { get; private set; }
 		public LuaNativeFunction CallConstructorFunction { get; private set; }
 		public LuaNativeFunction ToStringFunction { get; private set; }
+		public LuaNativeFunction CallDelegateFunction { get; private set; }
 		 
 		public LuaNativeFunction AddFunction { get; private set; }
 		public LuaNativeFunction SubtractFunction { get; private set; }
@@ -109,6 +114,7 @@ namespace NLua
 			ClassIndexFunction = new LuaNativeFunction (MetaFunctions.GetClassMethod);
 			ClassNewindexFunction = new LuaNativeFunction (MetaFunctions.SetClassFieldOrProperty);
 			ExecuteDelegateFunction = new LuaNativeFunction (MetaFunctions.RunFunctionDelegate);
+			CallDelegateFunction = new LuaNativeFunction (MetaFunctions.CallDelegate);
 			AddFunction = new LuaNativeFunction (MetaFunctions.AddLua);
 			SubtractFunction = new LuaNativeFunction (MetaFunctions.SubtractLua);
 			MultiplyFunction = new LuaNativeFunction (MetaFunctions.MultiplyLua);
@@ -124,7 +130,7 @@ namespace NLua
 		 * __call metafunction of CLR delegates, retrieves and calls the delegate.
 		 */
 #if MONOTOUCH
-		[MonoTouch.MonoPInvokeCallback (typeof (LuaNativeFunction))]
+		[MonoPInvokeCallback (typeof (LuaNativeFunction))]
 #endif
 		private static int RunFunctionDelegate (LuaState luaState)
 		{
@@ -143,7 +149,7 @@ namespace NLua
 		 * __gc metafunction of CLR objects.
 		 */
 #if MONOTOUCH
-		[MonoTouch.MonoPInvokeCallback (typeof (LuaNativeFunction))]
+		[MonoPInvokeCallback (typeof (LuaNativeFunction))]
 #endif
 		private static int CollectObject (LuaState luaState)
 		{
@@ -165,7 +171,7 @@ namespace NLua
 		 * __tostring metafunction of CLR objects.
 		 */
 #if MONOTOUCH
-		[MonoTouch.MonoPInvokeCallback (typeof (LuaNativeFunction))]
+		[MonoPInvokeCallback (typeof (LuaNativeFunction))]
 #endif
 		private static int ToStringLua (LuaState luaState)
 		{
@@ -190,7 +196,7 @@ namespace NLua
  * __add metafunction of CLR objects.
  */
 #if MONOTOUCH
-		[MonoTouch.MonoPInvokeCallback (typeof (LuaNativeFunction))]
+		[MonoPInvokeCallback (typeof (LuaNativeFunction))]
 #endif
 		static int AddLua (LuaState luaState)
 		{
@@ -202,7 +208,7 @@ namespace NLua
 		* __sub metafunction of CLR objects.
 		*/
 #if MONOTOUCH
-		[MonoTouch.MonoPInvokeCallback (typeof (LuaNativeFunction))]
+		[MonoPInvokeCallback (typeof (LuaNativeFunction))]
 #endif
 		static int SubtractLua (LuaState luaState)
 		{
@@ -214,7 +220,7 @@ namespace NLua
 		* __mul metafunction of CLR objects.
 		*/
 #if MONOTOUCH
-		[MonoTouch.MonoPInvokeCallback (typeof (LuaNativeFunction))]
+		[MonoPInvokeCallback (typeof (LuaNativeFunction))]
 #endif
 		static int MultiplyLua (LuaState luaState)
 		{
@@ -226,7 +232,7 @@ namespace NLua
 		* __div metafunction of CLR objects.
 		*/
 #if MONOTOUCH
-		[MonoTouch.MonoPInvokeCallback (typeof (LuaNativeFunction))]
+		[MonoPInvokeCallback (typeof (LuaNativeFunction))]
 #endif
 		static int DivideLua (LuaState luaState)
 		{
@@ -238,7 +244,7 @@ namespace NLua
 		* __mod metafunction of CLR objects.
 		*/
 #if MONOTOUCH
-		[MonoTouch.MonoPInvokeCallback (typeof (LuaNativeFunction))]
+		[MonoPInvokeCallback (typeof (LuaNativeFunction))]
 #endif
 		static int ModLua (LuaState luaState)
 		{
@@ -250,7 +256,7 @@ namespace NLua
 		* __unm metafunction of CLR objects.
 		*/
 #if MONOTOUCH
-		[MonoTouch.MonoPInvokeCallback (typeof (LuaNativeFunction))]
+		[MonoPInvokeCallback (typeof (LuaNativeFunction))]
 #endif
 		static int UnaryNegationLua (LuaState luaState)
 		{
@@ -286,7 +292,7 @@ namespace NLua
 		* __eq metafunction of CLR objects.
 		*/
 #if MONOTOUCH
-		[MonoTouch.MonoPInvokeCallback (typeof (LuaNativeFunction))]
+		[MonoPInvokeCallback (typeof (LuaNativeFunction))]
 #endif
 		static int EqualLua (LuaState luaState)
 		{
@@ -298,7 +304,7 @@ namespace NLua
 		* __lt metafunction of CLR objects.
 		*/
 #if MONOTOUCH
-		[MonoTouch.MonoPInvokeCallback (typeof (LuaNativeFunction))]
+		[MonoPInvokeCallback (typeof (LuaNativeFunction))]
 #endif
 		static int LessThanLua (LuaState luaState)
 		{
@@ -310,7 +316,7 @@ namespace NLua
 		 * __le metafunction of CLR objects.
 		 */
 #if MONOTOUCH
-		[MonoTouch.MonoPInvokeCallback (typeof (LuaNativeFunction))]
+		[MonoPInvokeCallback (typeof (LuaNativeFunction))]
 #endif
 		static int LessThanOrEqualLua (LuaState luaState)
 		{
@@ -363,7 +369,7 @@ namespace NLua
 		 * If the member does not exist returns nil.
 		 */
 #if MONOTOUCH
-		[MonoTouch.MonoPInvokeCallback (typeof (LuaNativeFunction))]
+		[MonoPInvokeCallback (typeof (LuaNativeFunction))]
 #endif
 		private static int GetMethod (LuaState luaState)
 		{
@@ -472,7 +478,7 @@ namespace NLua
 		 * Adds a prefix to the method name to call the base version of the method.
 		 */
 #if MONOTOUCH
-		[MonoTouch.MonoPInvokeCallback (typeof (LuaNativeFunction))]
+		[MonoPInvokeCallback (typeof (LuaNativeFunction))]
 #endif
 		private static int GetBaseMethod (LuaState luaState)
 		{
@@ -605,7 +611,8 @@ namespace NLua
 						SetMemberCache (memberCache, objType, methodName, member);
 
 					try {
-						translator.Push (luaState, field.GetValue (obj));
+						var value = field.GetValue (obj);
+						translator.Push (luaState, value);							
 					} catch {
 						LuaLib.LuaPushNil (luaState);
 					}
@@ -619,8 +626,9 @@ namespace NLua
 						SetMemberCache (memberCache, objType, methodName, member);
 
 					try {
-						object val = property.GetValue (obj, null);
-						translator.Push (luaState, val);
+						object value = property.GetValue (obj, null);
+						translator.Push (luaState, value);
+							
 					} catch (ArgumentException) {
 						// If we can't find the getter in our class, recurse up to the base class and see
 						// if they can help.
@@ -684,6 +692,14 @@ namespace NLua
 					LuaLib.LuaPushNil (luaState);
 				}
 			} else {
+
+				if (objType.UnderlyingSystemType != typeof(object)) {
+					#if NETFX_CORE
+					return GetMember (luaState, new ProxyType(objType.UnderlyingSystemType.GetTypeInfo().BaseType), obj, methodName, bindingType);
+					#else
+					return GetMember (luaState, new ProxyType(objType.UnderlyingSystemType.BaseType), obj, methodName, bindingType);
+					#endif
+				}
 				// kevinh - we want to throw an exception because meerly returning 'nil' in this case
 				// is not sufficient.  valid data members may return nil and therefore there must be some
 				// way to know the member just doesn't exist.
@@ -752,7 +768,7 @@ namespace NLua
 		 * and error if the assignment is invalid.
 		 */
 #if MONOTOUCH
-		[MonoTouch.MonoPInvokeCallback (typeof (LuaNativeFunction))]
+		[MonoPInvokeCallback (typeof (LuaNativeFunction))]
 #endif
 		private static int SetFieldOrProperty (LuaState luaState)
 		{
@@ -934,7 +950,7 @@ namespace NLua
 		 * __index metafunction of type references, works on static members.
 		 */
 #if MONOTOUCH
-		[MonoTouch.MonoPInvokeCallback (typeof (LuaNativeFunction))]
+		[MonoPInvokeCallback (typeof (LuaNativeFunction))]
 #endif
 		private static int GetClassMethod (LuaState luaState)
 		{
@@ -975,7 +991,7 @@ namespace NLua
 		 * __newindex function of type references, works on static members.
 		 */
 #if MONOTOUCH
-		[MonoTouch.MonoPInvokeCallback (typeof (LuaNativeFunction))]
+		[MonoPInvokeCallback (typeof (LuaNativeFunction))]
 #endif
 		private static int SetClassFieldOrProperty (LuaState luaState)
 		{
@@ -999,13 +1015,64 @@ namespace NLua
 		}
 
 		/*
+		 * __call metafunction of Delegates. 
+		 */
+		#if MONOTOUCH
+		[MonoPInvokeCallback (typeof (LuaNativeFunction))]
+		#endif
+		static int CallDelegate (LuaState luaState)
+		{
+			var translator = ObjectTranslatorPool.Instance.Find (luaState);
+			var instance = translator.MetaFunctionsInstance;
+			return instance.CallDelegateInternal (luaState);
+		}
+
+		int CallDelegateInternal (LuaState luaState)
+		{
+			object objDelegate = translator.GetRawNetObject (luaState, 1);
+
+			if (objDelegate == null || !(objDelegate is Delegate)) {
+				translator.ThrowError (luaState, "trying to invoke a not delegate or callable value");
+				LuaLib.LuaPushNil (luaState);
+				return 1;
+			}
+
+			LuaLib.LuaRemove (luaState, 1);
+
+			var validDelegate = new MethodCache ();
+			Delegate del = (Delegate)objDelegate;
+#if NETFX_CORE || WP80 || NET45 || PCL
+			MethodBase methodDelegate = del.GetMethodInfo ();
+#else
+            MethodBase methodDelegate = del.Method;
+#endif
+			bool isOk = MatchParameters (luaState, methodDelegate, ref validDelegate);
+
+			if (isOk) {
+				object result;
+
+				if (methodDelegate.IsStatic)
+					result = methodDelegate.Invoke (null, validDelegate.args);
+				else
+					result = methodDelegate.Invoke (del.Target, validDelegate.args);
+
+				translator.Push (luaState, result);
+				return 1;
+			}
+
+			translator.ThrowError (luaState, "Cannot invoke delegate (invalid arguments for  " + methodDelegate.Name + ")");
+			LuaLib.LuaPushNil (luaState);
+			return 1;
+		}
+
+		/*
 		 * __call metafunction of type references. Searches for and calls
 		 * a constructor for the type. Returns nil if the constructor is not
 		 * found or if the arguments are invalid. Throws an error if the constructor
 		 * generates an exception.
 		 */
 #if MONOTOUCH
-		[MonoTouch.MonoPInvokeCallback (typeof (LuaNativeFunction))]
+		[MonoPInvokeCallback (typeof (LuaNativeFunction))]
 #endif
 		private static int CallConstructor (LuaState luaState)
 		{
@@ -1200,17 +1267,17 @@ namespace NLua
 
 					currentLuaParam++;
 				}  // Type does not match, ignore if the parameter is optional
-				else if (IsParamsArray (luaState, currentLuaParam, currentNetParam, out extractValue)) {
+				else if (IsParamsArray (luaState, nLuaParams, currentLuaParam, currentNetParam, out extractValue)) {
 
-					var paramArrayType = currentNetParam.ParameterType.GetElementType ();
+					int count = (nLuaParams - currentLuaParam) + 1;
+					Type paramArrayType = currentNetParam.ParameterType.GetElementType ();
 
 					Func<int, object> extractDelegate = (currentParam) => {
-						currentLuaParam ++;
+						currentLuaParam++;
 						return extractValue (luaState, currentParam);
 					};
-					int count = (nLuaParams - currentLuaParam) + 1;
+					
 					Array paramArray = TableToArray (extractDelegate, paramArrayType, currentLuaParam, count);
-
 					paramList.Add (paramArray);
 					int index = paramList.LastIndexOf (paramArray);
 					var methodArg = new MethodArgs ();
@@ -1219,6 +1286,7 @@ namespace NLua
 					methodArg.isParamsArray = true;
 					methodArg.paramsArrayType = paramArrayType;
 					argTypes.Add (methodArg);
+					 
 
 				} else if (currentLuaParam > nLuaParams) { // Adds optional parameters
 					if (currentNetParam.IsOptional)
@@ -1266,11 +1334,14 @@ namespace NLua
 			}
 		}
 
-		private bool IsParamsArray (LuaState luaState, int currentLuaParam, ParameterInfo currentNetParam, out ExtractValue extractValue)
+		private bool IsParamsArray (LuaState luaState, int nLuaParams, int currentLuaParam, ParameterInfo currentNetParam, out ExtractValue extractValue)
 		{
 			extractValue = null;
+			bool isParamArray = false;
 
 			if (currentNetParam.GetCustomAttributes (typeof(ParamArrayAttribute), false).Any ()) {
+
+				isParamArray = nLuaParams < currentLuaParam;
 				LuaTypes luaType;
 
 				try {
@@ -1307,8 +1378,7 @@ namespace NLua
 				}
 			}
 
-			Debug.WriteLine ("Type wasn't Params object.");
-			return false;
+			return isParamArray;
 		}
 	}
 }

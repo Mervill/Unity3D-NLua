@@ -33,6 +33,10 @@ using NLua.Method;
 using NLua.Exceptions;
 using NLua.Extensions;
 
+#if MONOTOUCH
+	using ObjCRuntime;
+#endif
+
 namespace NLua
 {
 	#if USE_KOPILUA
@@ -259,7 +263,7 @@ namespace NLua
 		 * if the assembly is not found.
 		 */
 #if MONOTOUCH
-		[MonoTouch.MonoPInvokeCallback (typeof (LuaNativeFunction))]
+		[MonoPInvokeCallback (typeof (LuaNativeFunction))]
 #endif
 		private static int LoadAssembly (LuaState luaState)
 		{
@@ -346,7 +350,7 @@ namespace NLua
 		 * type is not found.
 		 */
 #if MONOTOUCH
-		[MonoTouch.MonoPInvokeCallback (typeof (LuaNativeFunction))]
+		[MonoPInvokeCallback (typeof (LuaNativeFunction))]
 #endif
 		private static int ImportType (LuaState luaState)
 		{
@@ -373,7 +377,7 @@ namespace NLua
 		 * type passed as second argument in the stack.
 		 */
 #if MONOTOUCH
-		[MonoTouch.MonoPInvokeCallback (typeof (LuaNativeFunction))]
+		[MonoPInvokeCallback (typeof (LuaNativeFunction))]
 #endif
 		private static int RegisterTable (LuaState luaState)
 		{
@@ -424,7 +428,7 @@ namespace NLua
 		 * base field, freeing the created object for garbage-collection
 		 */
 #if MONOTOUCH
-		[MonoTouch.MonoPInvokeCallback (typeof (LuaNativeFunction))]
+		[MonoPInvokeCallback (typeof (LuaNativeFunction))]
 #endif
 		private static int UnregisterTable (LuaState luaState)
 		{
@@ -468,7 +472,7 @@ namespace NLua
 		 * if no matching method is not found.
 		 */
 #if MONOTOUCH
-		[MonoTouch.MonoPInvokeCallback (typeof (LuaNativeFunction))]
+		[MonoPInvokeCallback (typeof (LuaNativeFunction))]
 #endif
 		private static int GetMethodSignature (LuaState luaState)
 		{
@@ -520,7 +524,7 @@ namespace NLua
 		 * if no matching constructor is found.
 		 */
 #if MONOTOUCH
-		[MonoTouch.MonoPInvokeCallback (typeof (LuaNativeFunction))]
+		[MonoPInvokeCallback (typeof (LuaNativeFunction))]
 #endif
 		private static int GetConstructorSignature (LuaState luaState)
 		{
@@ -571,6 +575,7 @@ namespace NLua
 			PushObject (luaState, func, "luaNet_function");
 		}
 
+
 		/*
 		 * Pushes a CLR object into the Lua stack as an userdata
 		 * with the provided metatable
@@ -587,9 +592,9 @@ namespace NLua
 
 			// Object already in the list of Lua objects? Push the stored reference.
 #if NETFX_CORE
-			bool found = (!o.GetType().GetTypeInfo().IsValueType) && objectsBackMap.TryGetValue (o, out index);
+			bool found = (!o.GetType().GetTypeInfo().IsValueType || o.GetType().GetTypeInfo().IsEnum) && objectsBackMap.TryGetValue (o, out index);
 #else
-			bool found = (!o.GetType().IsValueType) && objectsBackMap.TryGetValue (o, out index);
+            bool found = (!o.GetType().IsValueType || o.GetType().IsEnum) && objectsBackMap.TryGetValue(o, out index);
 #endif
 
 			if (found) {
@@ -651,6 +656,7 @@ namespace NLua
 					LuaLib.LuaRawSet (luaState, -3);
 					// Bind C# operator with Lua metamethods (__add, __sub, __mul)
 					RegisterOperatorsFunctions (luaState, o.GetType ());
+					RegisterCallMethodForDelegate (luaState, o);
 				}
 			} else
 				LuaLib.LuaLGetMetatable (luaState, metatable);
@@ -665,6 +671,16 @@ namespace NLua
 			LuaLib.LuaPushValue (luaState, -1);
 			LuaLib.LuaRawSetI (luaState, -3, index);
 			LuaLib.LuaRemove (luaState, -2);
+		}
+
+		void RegisterCallMethodForDelegate (LuaState luaState, object o)
+		{
+			if (!(o is Delegate))
+				return;
+
+			LuaLib.LuaPushString (luaState, "__call");
+			LuaLib.LuaPushStdCallCFunction (luaState, metaFunctions.CallDelegateFunction);
+			LuaLib.LuaRawSet (luaState, -3);
 		}
 
 		void RegisterOperatorsFunctions (LuaState luaState, Type type)
@@ -748,9 +764,9 @@ namespace NLua
 		{
 			objects.Remove (udata);
 #if NETFX_CORE
-			if (!o.GetType ().GetTypeInfo ().IsValueType)
+			if (!o.GetType ().GetTypeInfo ().IsValueType || o.GetType().GetTypeInfo().IsEnum)
 #else
-			if (!o.GetType ().IsValueType)
+			if (!o.GetType ().IsValueType || o.GetType().IsEnum)
 #endif
 				objectsBackMap.Remove (o);
 		}
@@ -761,9 +777,9 @@ namespace NLua
 			int index = nextObj++;
 			objects [index] = obj;
 #if NETFX_CORE
-			if (!obj.GetType ().GetTypeInfo().IsValueType)
+			if (!obj.GetType ().GetTypeInfo().IsValueType || obj.GetType ().GetTypeInfo().IsValueType)
 #else
-			if (!obj.GetType().IsValueType)
+            if (!obj.GetType().IsValueType || obj.GetType().IsValueType)
 #endif
 
 			objectsBackMap [obj] = index;
@@ -930,8 +946,8 @@ namespace NLua
 			if (o == null)
 				LuaLib.LuaPushNil (luaState);
 			else if (o is sbyte || o is byte || o is short || o is ushort ||
-				o is int || o is uint || o is long || o is float ||
-				o is ulong || o is decimal || o is double) {
+			         o is int || o is uint || o is long || o is float ||
+			         o is ulong || o is decimal || o is double) {
 				double d = Convert.ToDouble (o);
 				LuaLib.LuaPushNumber (luaState, d);
 			} else if (o is char) {
@@ -986,7 +1002,7 @@ namespace NLua
 		}
 
 #if MONOTOUCH
-		[MonoTouch.MonoPInvokeCallback (typeof (LuaNativeFunction))]
+		[MonoPInvokeCallback (typeof (LuaNativeFunction))]
 #endif
 		private static int CType (LuaState luaState)
 		{
@@ -1005,7 +1021,7 @@ namespace NLua
 		}
 
 #if MONOTOUCH
-		[MonoTouch.MonoPInvokeCallback (typeof (LuaNativeFunction))]
+		[MonoPInvokeCallback (typeof (LuaNativeFunction))]
 #endif
 		private static int EnumFromInt (LuaState luaState)
 		{
