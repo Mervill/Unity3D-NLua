@@ -158,7 +158,7 @@ namespace NLua
 				if (LuaLib.LuaIsBoolean (luaState, stackPos))
 					return extractValues [extractKey];
 			} else if (netParamIsString) {
-				if (LuaLib.LuaIsString  (luaState, stackPos))
+				if (LuaLib.LuaNetIsStringStrict (luaState, stackPos))
 					return extractValues [extractKey];
 				else if (luatype == LuaTypes.Nil)
 					return extractNetObject; // kevinh - silently convert nil to a null string pointer
@@ -322,7 +322,7 @@ namespace NLua
 
 		private object GetAsCharArray (LuaState luaState, int stackPos)
 		{
-			if (!LuaLib.LuaIsString (luaState, stackPos))
+			if (!LuaLib.LuaNetIsStringStrict (luaState, stackPos))
 				return null;
 			string retVal = LuaLib.LuaToString (luaState, stackPos).ToString ();
 			return retVal.ToCharArray();
@@ -330,7 +330,7 @@ namespace NLua
 
 		private object GetAsString (LuaState luaState, int stackPos)
 		{
-			if (!LuaLib.LuaIsString (luaState, stackPos))
+			if (!LuaLib.LuaNetIsStringStrict (luaState, stackPos))
 				return null;
 			string retVal = LuaLib.LuaToString (luaState, stackPos).ToString ();			
 			return retVal;
