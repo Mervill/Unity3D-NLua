@@ -37,9 +37,18 @@ been tested for compatibility.
 
 ## FAQ
 
- **How do I Instantiate new objects?**
+**How do I Instantiate new objects?**
 
 See the SpawnSphere example.
+
+**Issues with GetComponent**
+
+You should use the string version of the `GetComponent` function as there
+are currently issues with using types returned from `luanet.ctype`.
+
+```Lua
+gameObject:GetComponent("Transform")
+```
 
 **How do I run C# coroutines?**
 

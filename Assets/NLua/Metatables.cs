@@ -1114,6 +1114,18 @@ namespace NLua
 				}
 			}
 
+#if NETFX_CORE
+			if (klass.UnderlyingSystemType.GetTypeInfo ().IsValueType) {
+#else
+			if (klass.UnderlyingSystemType.IsValueType) {
+#endif
+				int numLuaParams = LuaLib.LuaGetTop (luaState);
+				if (numLuaParams == 0) {
+					translator.Push (luaState, Activator.CreateInstance (klass.UnderlyingSystemType));
+					return 1;
+				}
+			}
+
 			string constructorName = (constructors.Length == 0) ? "unknown" : constructors [0].Name;
 			translator.ThrowError (luaState, String.Format ("{0} does not contain constructor({1}) argument match",
 				klass.UnderlyingSystemType, constructorName));

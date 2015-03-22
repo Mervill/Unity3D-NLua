@@ -41,8 +41,8 @@ function OnGUI()
 	GUILayout.BeginArea(Rect(10,10,(Screen.width / 2) - 20,Screen.height - 20))
 
 	-- Adding '{ }' to the end of GUI functions satisfies their 'params' argument.
-	GUILayout.Label('[W/S] Speed: ' .. Speed,{ }) 
-	GUILayout.Label('[A/D] Rot Angle: ' .. Angle:ToString(),{ })
+	GUILayout.Label('[W/S] Speed: ' .. Speed) 
+	GUILayout.Label('[A/D] Rot Angle: ' .. Angle:ToString())
 
 	GUILayout.EndArea()
 
@@ -117,6 +117,7 @@ end
 			}
 		} catch(NLua.Exceptions.LuaException e) {
 			Debug.LogError(FormatException(e), gameObject);
+			throw e;
 		}
 		return result;
 	}
